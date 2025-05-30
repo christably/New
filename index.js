@@ -85,7 +85,7 @@ const loadLocalProducts = () => {
 fetchProducts();
 loadLocalProducts();
 
-// Floating emoji + theme switch (keep existing)
+// Floating emoji
 const createFloatingEmoji = () => {
     const emoji = document.createElement('div');
     emoji.classList.add('floating-emoji');
@@ -96,75 +96,43 @@ const createFloatingEmoji = () => {
 };
 setInterval(createFloatingEmoji, 800);
 
-
+// Audio setup
 const lightSound = new Audio("https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Lobo_Loco/Reggae_Mix/Lobo_Loco_-_Sunshine_Reggae.mp3");
 const redSound = new Audio("https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Ketsa/Positivity/Ketsa_-_Dub_Reggae_Groove.mp3");
 const darkSound = new Audio("https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Jahzzar/Travellers_Guide/Jahzzar_-_Desert_Reggae.mp3");
 
-
-
+// Theme toggle
 const themeToggle = document.getElementById('theme-switch');
 const themeLabel = document.getElementById('theme-label');
 let themeState = 0; // 0 = light, 1 = red, 2 = dark
 
 themeToggle.addEventListener('mouseenter', () => {
+    // Reset previous theme
     document.body.classList.remove('dark-mode', 'red-mode');
+    lightSound.pause(); redSound.pause(); darkSound.pause();
+    lightSound.currentTime = 0;
+    redSound.currentTime = 0;
+    darkSound.currentTime = 0;
 
-    if (themeState === 1) {
-    document.body.classList.add('red-mode');
-    themeToggle.textContent = '🔥';
-    themeToggle.style.color = '#ff4d4d';
-    themeLabel.textContent = '❤️ Red Mode';
-      lightSound.pause(); redSound.pause(); darkSound.pause();
-lightSound.currentTime = 0;
-redSound.currentTime = 0;
-darkSound.currentTime = 0;
-
-    redSound.play();
-} else if (themeState === 2) {
-    document.body.classList.add('dark-mode');
-    themeToggle.textContent = '🌙';
-    themeToggle.style.color = '#ffdd00';
-    themeLabel.textContent = '🌙 Dark Mode';
-      lightSound.pause(); redSound.pause(); darkSound.pause();
-lightSound.currentTime = 0;
-redSound.currentTime = 0;
-darkSound.currentTime = 0;
-
-    darkSound.play();
-} else {
-    themeToggle.textContent = '🌞';
-    themeToggle.style.color = '#f1c40f';
-    themeLabel.textContent = '☀️ Light Mode';
-      lightSound.pause(); redSound.pause(); darkSound.pause();
-lightSound.currentTime = 0;
-redSound.currentTime = 0;
-darkSound.currentTime = 0;
-
-    lightSound.play();
-}
-
-
-    themeState = (themeState + 1) % 3;
-});
-
-
-
-const themeLabel = document.getElementById('theme-label');
-
-themeToggle.addEventListener('mouseenter', () => {
-    document.body.classList.remove('dark-mode', 'red-mode');
-
+    // Switch theme
     if (themeState === 1) {
         document.body.classList.add('red-mode');
+        themeToggle.textContent = '🔥';
+        themeToggle.style.color = '#ff4d4d';
         themeLabel.textContent = '❤️ Red Mode';
+        redSound.play();
     } else if (themeState === 2) {
         document.body.classList.add('dark-mode');
+        themeToggle.textContent = '🌙';
+        themeToggle.style.color = '#ffdd00';
         themeLabel.textContent = '🌙 Dark Mode';
+        darkSound.play();
     } else {
+        themeToggle.textContent = '🌞';
+        themeToggle.style.color = '#f1c40f';
         themeLabel.textContent = '☀️ Light Mode';
+        lightSound.play();
     }
 
     themeState = (themeState + 1) % 3;
 });
-
